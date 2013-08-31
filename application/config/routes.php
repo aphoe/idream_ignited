@@ -42,5 +42,6 @@ $route['default_controller'] = "home";
 $route['404_override'] = '';
 
 
+$route['upload'] = 'upload';
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
