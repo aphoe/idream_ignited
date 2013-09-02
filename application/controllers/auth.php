@@ -100,6 +100,63 @@ class Auth extends CI_Controller {
 			$this->_render_page('auth/login', $this->data);
 		}
 	}
+        
+        /*
+         * Custom method:
+         * Combine the registration and login methods
+         */
+        function user_login()
+        {
+            $data_log = array(
+                'message' => '',
+                'identity' => array(
+                    'placeholder' => 'Email',
+                    'type' => 'email',
+                    'required' => 'true',
+                    'name' => 'identity',
+                    'id' => 'identity'
+                ),
+                'password' => array(
+                    'placeholder' => 'Enter password',
+                    'type' => 'password',
+                    'required' => 'true',
+                    'name' => 'password',
+                    'id' => 'password'
+                )
+            );
+            $this->load->view('auth/user_login_login.php', $data_log);
+            $data_reg = array(
+                'password' => array(
+                    'placeholder' => 'Enter password',
+                    'type' => 'password',
+                    'required' => 'true',
+                    'name' => 'password',
+                    'id' => 'password'
+                ),
+                'first_name' => array(
+                    'placeholder' => 'Full name',
+                    'type' => 'text',
+                    'required' => 'true',
+                    'name' => 'first_name',
+                    'id' => 'first_name'
+                ),
+                'email' => array(
+                    'placeholder' => 'Email address',
+                    'type' => 'email',
+                    'required' => 'true',
+                    'name' => 'email',
+                    'id' => 'email'
+                ),
+                'password_confirm' => array(
+                    'placeholder' => 'Confirm password',
+                    'type' => 'password',
+                    'required' => 'true',
+                    'name' => 'password_confirm',
+                    'id' => 'password_confirm'
+                ),
+            );
+            $this->load->view('auth/user_login_create.php', $data_reg);
+        }
 
 	//log the user out
 	function logout()
@@ -464,6 +521,7 @@ class Auth extends CI_Controller {
 				'name'  => 'email',
 				'id'    => 'email',
 				'type'  => 'text',
+                                'placeholder' => 'Email address',
 				'value' => $this->form_validation->set_value('email'),
 			);
                         /*
@@ -484,12 +542,14 @@ class Auth extends CI_Controller {
 				'name'  => 'password',
 				'id'    => 'password',
 				'type'  => 'password',
+                                'placeholder' => 'Enter password',
 				'value' => $this->form_validation->set_value('password'),
 			);
 			$this->data['password_confirm'] = array(
 				'name'  => 'password_confirm',
 				'id'    => 'password_confirm',
 				'type'  => 'password',
+                                'placeholder' => 'Confirm password',
 				'value' => $this->form_validation->set_value('password_confirm'),
 			);
 
