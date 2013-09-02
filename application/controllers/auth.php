@@ -397,9 +397,14 @@ class Auth extends CI_Controller {
                 /*
 		if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin())
 		{
+<<<<<<< HEAD
 			redirect('auth', 'refresh');
 		}                 
                  */
+=======
+			redirect('auth/create_user', 'refresh');
+		}
+>>>>>>> f44f69f9f60e83494d47fd814e883a6064361f44
 
 		//validate form input
 		$this->form_validation->set_rules('first_name', $this->lang->line('create_user_validation_fname_label'), 'required|xss_clean');
@@ -426,7 +431,7 @@ class Auth extends CI_Controller {
 			//check to see if we are creating the user
 			//redirect them back to the admin page
 			$this->session->set_flashdata('message', $this->ion_auth->messages());
-			redirect("auth", 'refresh');
+			redirect("auth/create_user", 'refresh');
 		}
 		else
 		{
