@@ -138,18 +138,21 @@ class Auth extends CI_Controller {
 			$this->data['old_password'] = array(
 				'name' => 'old',
 				'id'   => 'old',
+                                'placeholder' => 'old password',
 				'type' => 'password',
 			);
 			$this->data['new_password'] = array(
 				'name' => 'new',
 				'id'   => 'new',
 				'type' => 'password',
+                                'placeholder' => 'New password',
 				'pattern' => '^.{'.$this->data['min_password_length'].'}.*$',
 			);
 			$this->data['new_password_confirm'] = array(
 				'name' => 'new_confirm',
 				'id'   => 'new_confirm',
 				'type' => 'password',
+                                'placeholder' => 'Confirm password',
 				'pattern' => '^.{'.$this->data['min_password_length'].'}.*$',
 			);
 			$this->data['user_id'] = array(
@@ -397,14 +400,9 @@ class Auth extends CI_Controller {
                 /*
 		if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin())
 		{
-<<<<<<< HEAD
 			redirect('auth', 'refresh');
-		}                 
-                 */
-=======
-			redirect('auth/create_user', 'refresh');
 		}
->>>>>>> f44f69f9f60e83494d47fd814e883a6064361f44
+                 */
 
 		//validate form input
 		$this->form_validation->set_rules('first_name', $this->lang->line('create_user_validation_fname_label'), 'required|xss_clean');
@@ -422,8 +420,16 @@ class Auth extends CI_Controller {
 			$email    = strtolower($this->input->post('email'));
 			$password = $this->input->post('password');
 
-			$additional_data = array(
-				'first_name' => $this->input->post('first_name')
+			/*
+                        $additional_data = array(
+				'first_name' => $this->input->post('first_name'),
+				'last_name'  => $this->input->post('last_name'),
+				'company'    => $this->input->post('company'),
+				'phone'      => $this->input->post('phone'),
+			);
+                         */
+                        $additional_data = array(
+				'first_name' => $this->input->post('first_name'),
 			);
 		}
 		if ($this->form_validation->run() == true && $this->ion_auth->register($username, $password, $email, $additional_data))
@@ -431,7 +437,7 @@ class Auth extends CI_Controller {
 			//check to see if we are creating the user
 			//redirect them back to the admin page
 			$this->session->set_flashdata('message', $this->ion_auth->messages());
-			redirect("auth/create_user", 'refresh');
+			redirect("auth", 'refresh');
 		}
 		else
 		{
@@ -444,7 +450,6 @@ class Auth extends CI_Controller {
 				'id'    => 'first_name',
 				'type'  => 'text',
                                 'placeholder' => 'Full name',
-                                'required' => 'true',
 				'value' => $this->form_validation->set_value('first_name'),
 			);
                         /*
@@ -453,14 +458,12 @@ class Auth extends CI_Controller {
 				'id'    => 'last_name',
 				'type'  => 'text',
 				'value' => $this->form_validation->set_value('last_name'),
-			);                    
+			);
                          */
 			$this->data['email'] = array(
 				'name'  => 'email',
 				'id'    => 'email',
-				'type'  => 'email',
-                                'placeholder' => 'Email address',
-                                'required' => 'true',
+				'type'  => 'text',
 				'value' => $this->form_validation->set_value('email'),
 			);
                         /*
@@ -481,16 +484,12 @@ class Auth extends CI_Controller {
 				'name'  => 'password',
 				'id'    => 'password',
 				'type'  => 'password',
-                                'placeholder' => 'Enter password',
-                                'required' => 'true',
 				'value' => $this->form_validation->set_value('password'),
 			);
 			$this->data['password_confirm'] = array(
 				'name'  => 'password_confirm',
 				'id'    => 'password_confirm',
 				'type'  => 'password',
-                                'placeholder' => 'Confirm password',
-                                'required' => 'true',
 				'value' => $this->form_validation->set_value('password_confirm'),
 			);
 
@@ -514,9 +513,9 @@ class Auth extends CI_Controller {
 
 		//validate form input
 		$this->form_validation->set_rules('first_name', $this->lang->line('edit_user_validation_fname_label'), 'required|xss_clean');
-		$this->form_validation->set_rules('last_name', $this->lang->line('edit_user_validation_lname_label'), 'required|xss_clean');
-		$this->form_validation->set_rules('phone', $this->lang->line('edit_user_validation_phone_label'), 'required|xss_clean');
-		$this->form_validation->set_rules('company', $this->lang->line('edit_user_validation_company_label'), 'required|xss_clean');
+		//$this->form_validation->set_rules('last_name', $this->lang->line('edit_user_validation_lname_label'), 'required|xss_clean');
+		//$this->form_validation->set_rules('phone', $this->lang->line('edit_user_validation_phone_label'), 'required|xss_clean');
+		//$this->form_validation->set_rules('company', $this->lang->line('edit_user_validation_company_label'), 'required|xss_clean');
 		$this->form_validation->set_rules('groups', $this->lang->line('edit_user_validation_groups_label'), 'xss_clean');
 
 		if (isset($_POST) && !empty($_POST))
@@ -528,10 +527,7 @@ class Auth extends CI_Controller {
 			}
 
 			$data = array(
-				'first_name' => $this->input->post('first_name'),
-				'last_name'  => $this->input->post('last_name'),
-				'company'    => $this->input->post('company'),
-				'phone'      => $this->input->post('phone'),
+				'first_name' => $this->input->post('first_name')
 			);
 
 			//Update the groups user belongs to
@@ -581,9 +577,11 @@ class Auth extends CI_Controller {
 		$this->data['first_name'] = array(
 			'name'  => 'first_name',
 			'id'    => 'first_name',
+                        'placeholder' => 'Full name',
 			'type'  => 'text',
 			'value' => $this->form_validation->set_value('first_name', $user->first_name),
 		);
+                /*
 		$this->data['last_name'] = array(
 			'name'  => 'last_name',
 			'id'    => 'last_name',
@@ -602,6 +600,7 @@ class Auth extends CI_Controller {
 			'type'  => 'text',
 			'value' => $this->form_validation->set_value('phone', $user->phone),
 		);
+                 */
 		$this->data['password'] = array(
 			'name' => 'password',
 			'id'   => 'password',
